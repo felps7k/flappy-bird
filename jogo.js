@@ -62,17 +62,17 @@ const background = {
 
         ctx.drawImage(
             sprites,
-            background.spriteX, background.spriteY, //Início da imagem
-            background.width, background.height, //Final da imagem
-            background.x, background.y, //Local da imagem na tela
-            background.width, background.height //Tamanho da imagem na tela
+            background.spriteX, background.spriteY,
+            background.width, background.height,
+            background.x, background.y,
+            background.width, background.height
         );
         ctx.drawImage(
             sprites,
-            background.spriteX, background.spriteY, //Início da imagem
-            background.width, background.height, //Final da imagem
-            (background.x + background.width), background.y, //Local da imagem na tela
-            background.width, background.height //Tamanho da imagem na tela
+            background.spriteX, background.spriteY,
+            background.width, background.height,
+            (background.x + background.width), background.y,
+            background.width, background.height
         );
     }
 }
