@@ -1,5 +1,8 @@
 console.log('~Felps7k~');
 
+const hitSound = new Audio();
+hitSound.src = './sounds/hit.wav';
+
 const sprites = new Image();
 sprites.src = './sprites.png';
 
@@ -20,7 +23,10 @@ function makeCharacter(){
         bounce: 4.6,
         fall(){
             if(colision(character, floor)){
-                changeToScreen(screen.START);
+                hitSound.play();
+                setTimeout(() =>{
+                    changeToScreen(screen.START);
+                }, 500)
                 return;
             }
             character.speed += character.gravity;
