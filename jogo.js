@@ -16,9 +16,13 @@ const character = {
     y: 220,
     speed: 0,
     gravity:0.25,
+    bounce: 4.6,
     fall(){
         character.speed += character.gravity;
         character.y = character.y + character.speed;
+    },
+    jump(){
+        character.speed = - character.bounce;
     },
     draw(){
         ctx.drawImage(
@@ -131,6 +135,9 @@ const screen = {
             background.draw();
             floor.draw();
             character.draw();
+        },
+        click(){
+            character.jump();
         },
         fall(){
             character.fall();
