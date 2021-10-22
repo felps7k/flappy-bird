@@ -7,32 +7,50 @@ const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
 // ~Character~
-const character = {
-    sX: 0,
-    sY: 0,
-    w: 33,
-    h: 24,
-    x: 10,
-    y: 220,
-    speed: 0,
-    gravity:0.25,
-    bounce: 4.6,
-    fall(){
-        character.speed += character.gravity;
-        character.y = character.y + character.speed;
-    },
-    jump(){
-        character.speed = - character.bounce;
-    },
-    draw(){
-        ctx.drawImage(
-            sprites,
-            character.sX, character.sY, //Início da imagem
-            character.w, character.h, //Final da imagem
-            character.x, character.y, //Local da imagem na tela
-            character.w, character.h //Tamanho da imagem na tela
-        );
+function makeCharacter(){
+    const character = {
+        sX: 0,
+        sY: 0,
+        w: 33,
+        h: 24,
+        x: 10,
+        y: 220,
+        speed: 0,
+        gravity:0.25,
+        bounce: 4.6,
+        fall(){
+            if(colision(character, floor)){
+                changeToScreen(screen.START);
+                return;
+            }
+            character.speed += character.gravity;
+            character.y = character.y + character.speed;
+        },
+        jump(){
+            character.speed = - character.bounce;
+        },
+        draw(){
+            ctx.drawImage(
+                sprites,
+                character.sX, character.sY, //Início da imagem
+                character.w, character.h, //Final da imagem
+                character.x, character.y, //Local da imagem na tela
+                character.w, character.h //Tamanho da imagem na tela
+            );
+        }
     }
+    return character;
+}
+
+// ~Colision~
+function colision(character, floor){
+    const characterY = character.y + character.h;
+    const floorY = floor.y;
+
+    if(characterY >= floorY){
+        return true;
+    }
+    return false;
 }
 
 // ~Floor~
@@ -110,17 +128,24 @@ const startGamemessage = {
 }
 
 // ~Screens~
+const global = {};
 let activeScreen = {};
 function changeToScreen(newScreen){
     activeScreen = newScreen;
+    if(activeScreen.make){
+        activeScreen.make();
+    }
 }
 
 const screen = {
     START: {
+        make(){
+            global.character = makeCharacter();
+        },
         draw(){
             background.draw();
             floor.draw();
-            character.draw();
+            global.character.draw();
             startGamemessage.draw();
         },
         click(){
@@ -134,13 +159,13 @@ const screen = {
         draw(){
             background.draw();
             floor.draw();
-            character.draw();
+            global.character.draw();
         },
         click(){
-            character.jump();
+            global.character.jump();
         },
         fall(){
-            character.fall();
+            global.character.fall();
         }
     },
 };
