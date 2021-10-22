@@ -12,7 +12,13 @@ const character = {
     width: 33,
     height: 24,
     x: 10,
-    y: 200, 
+    y: 200,
+    speed: 0,
+    gravity:0.25,
+    fall(){
+        character.speed += character.gravity;
+        character.y = character.y + character.speed;
+    },
     draw(){
         ctx.drawImage(
             sprites,
@@ -81,7 +87,8 @@ function loop(){
     background.draw();
     floor.draw();
     character.draw();
-    //character.y = character.y + 1;
+    character.fall();
+
     requestAnimationFrame(loop);
 }
 
