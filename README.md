@@ -8,6 +8,12 @@ Jogo sendo desenvolvido para aprender noções de JavaScript, a idéia é assist
 
 • https://www.youtube.com/watch?v=jOAU81jdi-c&list=PLTcmLKdIkOWmeNferJ292VYKBXydGeDej&index=2&ab_channel=DevSoutinho
 
+## 👨‍🔧 Modifications
+
+Modificações feitas além da playlist:
+
+• Desenhar medalha;
+
 ## 🔧 Stack
 Tecnologias utilizadas:
 
