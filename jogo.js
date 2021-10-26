@@ -133,7 +133,7 @@ function makeObstacle(){
             sX: 52,
             sY: 169
         },
-        space: 80,
+        //space: 80,
         pairsObs: [],
         draw(){
             obstacle.pairsObs.forEach(function(pair){
@@ -160,7 +160,28 @@ function makeObstacle(){
                     obsLowX, obsLowY,
                     obstacle.w, obstacle.h,
                 )
+                pair.obsUp = {
+                    x: obsUpX,
+                    y: obstacle.h + obsUpY
+                }
+                pair.obsLow = {
+                    x: obsLowX,
+                    y: obsLowY
+                }
             })
+        },
+        colision(pair){
+            const charUp = global.character.y;
+            const charLow = global.character.y + global.character.h;
+            if(global.character.x >= pair.x){
+                if(charUp <= pair.obsUp.y){
+                    return true;
+                }
+                if(charLow >= pair.obsLow.y){
+                    return true;
+                }
+            }
+            return false;
         },
         att(){
             const after100Frames = frames % 100 === 0;
@@ -172,6 +193,9 @@ function makeObstacle(){
             }
             obstacle.pairsObs.forEach(function(pair){
                 pair.x = pair.x - 2;
+                if(obstacle.colision(pair)){
+                    changeToScreen(screen.START);
+                }
                 if(pair.x + obstacle.w <= 0){
                     obstacle.pairsObs.shift();
                 }
@@ -258,12 +282,12 @@ const screen = {
         },
         att(){
             global.floor.att();
-            global.obstacle.att();
         }
     },
     GAME: {
         draw(){
             background.draw();
+            global.obstacle.draw();
             global.floor.draw();
             global.character.draw();
         },
