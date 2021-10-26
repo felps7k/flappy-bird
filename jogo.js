@@ -31,10 +31,8 @@ function makeCharacter(){
         ],
         fall(){
             if(colision(character, global.floor)){
-                hitSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
-                setTimeout(() =>{
-                    changeToScreen(screen.START);
-                }, 500)
+                //hitSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
+                changeToScreen(screen.GAME_OVER);
                 return;
             }
             character.speed += character.gravity;
@@ -131,7 +129,6 @@ function makeObstacle(){
             sX: 52,
             sY: 169
         },
-        //space: 80,
         pairsObs: [],
         draw(){
             obstacle.pairsObs.forEach(function(pair){
@@ -192,7 +189,7 @@ function makeObstacle(){
             obstacle.pairsObs.forEach(function(pair){
                 pair.x = pair.x - 2;
                 if(obstacle.colision(pair)){
-                    hitSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
+                    //hitSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
                     changeToScreen(screen.GAME_OVER);
                 }
                 if(pair.x + obstacle.w <= 0){
