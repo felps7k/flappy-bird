@@ -120,6 +120,48 @@ function makeFloor(){
     return floor;
 };
 
+// ~~Obstacles~
+function makeObstacle(){
+    const obstacle = {
+        w: 52,
+        h: 400,
+        low: {
+            sX: 0,
+            sY: 169
+        },
+        up: {
+            sX: 52,
+            sY: 169
+        },
+        space: 80,
+        draw(){
+            const spacing = 90;
+            const randomY = -150;
+            // Obstáculo cima
+            const obsUpX = 220;
+            const obsUpY = randomY;
+            ctx.drawImage(
+                sprites,
+                obstacle.up.sX, obstacle.up.sY,
+                obstacle.w, obstacle.h,
+                obsUpX, obsUpY,
+                obstacle.w, obstacle.h,
+            )
+
+            // Obstáculo baixo
+            const obsLowX = 220;
+            const obsLowY = obstacle.h + spacing + randomY;
+            ctx.drawImage(
+                sprites,
+                obstacle.low.sX, obstacle.low.sY,
+                obstacle.w, obstacle.h,
+                obsLowX, obsLowY,
+                obstacle.w, obstacle.h,
+            )
+        },
+    }
+    return obstacle;
+};
 
 // ~Background~
 const background = {
@@ -184,12 +226,14 @@ const screen = {
         make(){
             global.character = makeCharacter();
             global.floor = makeFloor();
+            global.obstacle = makeObstacle();
         },
         draw(){
             background.draw();
             global.floor.draw();
             global.character.draw();
-            startGameMessage.draw();
+            global.obstacle.draw();
+            //startGameMessage.draw();
         },
         click(){
             changeToScreen(screen.GAME);
