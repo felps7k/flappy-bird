@@ -23,4 +23,4 @@ Tecnologias utilizadas:
 
 ## 🖼 Work Preview
 
-70%
+![Final Preview](https://github.com/felps7k/flappy-bird/blob/main/preview.png)
