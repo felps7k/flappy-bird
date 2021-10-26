@@ -31,7 +31,7 @@ function makeCharacter(){
         ],
         fall(){
             if(colision(character, global.floor)){
-                //hitSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
+                hitSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
                 setTimeout(() =>{
                     changeToScreen(screen.START);
                 }, 500)
@@ -47,8 +47,6 @@ function makeCharacter(){
             const frameInterval = 15;
             const afterInterval = frames % frameInterval === 0;
             if(afterInterval){
-                //const baseIncrement = 1;
-                //const i = baseIncrement + character.actualFrame;
                 const i = character.actualFrame + 1;
                 const baseRepeat = character.moves.length;
                 character.actualFrame = i % baseRepeat;
@@ -90,7 +88,7 @@ function makeFloor(){
         x: 0,
         y: canvas.height - 112, 
         att(){
-            const moveFloor = 1;
+            const moveFloor = 2;
             const repeatFloor = floor.w / 2;
             const move = floor.x - moveFloor;
             
@@ -173,11 +171,11 @@ function makeObstacle(){
         colision(pair){
             const charUp = global.character.y;
             const charLow = global.character.y + global.character.h;
-            if(global.character.x >= pair.x){
-                if(charUp <= pair.obsUp.y){
+            if(((global.character.x + global.character.w) - 3) >= pair.x){
+                if(charUp <= (pair.obsUp.y - 3)){
                     return true;
                 }
-                if(charLow >= pair.obsLow.y){
+                if((charLow - 3) >= pair.obsLow.y){
                     return true;
                 }
             }
@@ -194,7 +192,8 @@ function makeObstacle(){
             obstacle.pairsObs.forEach(function(pair){
                 pair.x = pair.x - 2;
                 if(obstacle.colision(pair)){
-                    changeToScreen(screen.START);
+                    hitSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
+                    changeToScreen(screen.GAME_OVER);
                 }
                 if(pair.x + obstacle.w <= 0){
                     obstacle.pairsObs.shift();
@@ -253,6 +252,46 @@ const startGameMessage = {
     }
 }
 
+// ~Game Over Message~
+const gameOverMessage = {
+    sX: 134,
+    sY: 153,
+    w: 226,
+    h: 200,
+    x: (canvas.width / 2) - 226 / 2,
+    y: 50, 
+    draw(){
+        ctx.drawImage(
+            sprites,
+            gameOverMessage.sX, gameOverMessage.sY,
+            gameOverMessage.w, gameOverMessage.h,
+            gameOverMessage.x, gameOverMessage.y,
+            gameOverMessage.w, gameOverMessage.h
+        );
+    }
+}
+
+// ~Score~
+function makeScore(){
+    const score = {
+        point: 0,
+        draw(){
+            ctx.font = '25px "Press Start 2P"';
+            ctx.textAlign = 'right';
+            ctx.fillStyle = 'white';
+            ctx.fillText(`${score.point}`, canvas.width - 10, 35);
+        },
+        att(){
+            const frameInterval = 150;
+            const afterInterval = frames % frameInterval === 0;
+            if(afterInterval){
+                score.point += 1;
+            }
+        }
+    }
+    return score;
+}
+
 // ~Screens~
 const global = {};
 let activeScreen = {};
@@ -285,11 +324,15 @@ const screen = {
         }
     },
     GAME: {
+        make(){
+            global.score = makeScore();
+        },
         draw(){
             background.draw();
             global.obstacle.draw();
             global.floor.draw();
             global.character.draw();
+            global.score.draw();
         },
         click(){
             global.character.jump();
@@ -298,8 +341,20 @@ const screen = {
             global.character.fall();
             global.floor.att();
             global.obstacle.att();
+            global.score.att();
         }
     },
+    GAME_OVER: {
+        draw(){
+            gameOverMessage.draw();
+        },
+        click(){
+            changeToScreen(screen.START)
+        },
+        att(){
+
+        },
+    }
 };
 
 function loop(){
