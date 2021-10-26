@@ -13,9 +13,7 @@ const ctx = canvas.getContext('2d');
 
 // ~Character~
 function makeCharacter(){
-    const character = {
-        sX: 0,
-        sY: 0,
+    const character = { 
         w: 33,
         h: 24,
         x: 10,
@@ -295,6 +293,33 @@ function makeScore(){
     return score;
 }
 
+// ~Medals~
+function makeMedals(){
+    const medals = {
+        w: 44,
+        h: 44,
+        x: 73,
+        y: 136,
+        class: [
+            { sX: 48, sY: 124 }, //Medalha de Bronze
+            { sX: 48, sY: 78 }, //Medalha de Prata
+            { sX: 0, sY: 124 }, //Medalha de Ouro
+            { sX: 0, sY: 78 }, //Medalha de Platina
+        ],
+        draw(){
+            const { sX, sY } = medals.class[1];
+            ctx.drawImage(
+                sprites,
+                sX, sY,
+                medals.w, medals.h,
+                medals.x, medals.y,
+                medals.w, medals.h
+            );
+        }
+    }
+    return medals;
+}
+
 // ~Screens~
 const global = {};
 let activeScreen = {};
@@ -311,6 +336,7 @@ const screen = {
             global.character = makeCharacter();
             global.floor = makeFloor();
             global.obstacle = makeObstacle();
+            global.medals = makeMedals();
         },
         draw(){
             background.draw();
@@ -351,6 +377,7 @@ const screen = {
     GAME_OVER: {
         draw(){
             gameOverMessage.draw();
+            global.medals.draw();
         },
         click(){
             changeToScreen(screen.START)
