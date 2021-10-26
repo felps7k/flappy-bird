@@ -19,7 +19,7 @@ function makeCharacter(){
         w: 33,
         h: 24,
         x: 10,
-        y: 220,
+        y: 180,
         speed: 0,
         gravity:0.25,
         bounce: 4.6,
@@ -134,31 +134,49 @@ function makeObstacle(){
             sY: 169
         },
         space: 80,
+        pairsObs: [],
         draw(){
-            const spacing = 90;
-            const randomY = -150;
-            // Obstáculo cima
-            const obsUpX = 220;
-            const obsUpY = randomY;
-            ctx.drawImage(
-                sprites,
-                obstacle.up.sX, obstacle.up.sY,
-                obstacle.w, obstacle.h,
-                obsUpX, obsUpY,
-                obstacle.w, obstacle.h,
-            )
-
-            // Obstáculo baixo
-            const obsLowX = 220;
-            const obsLowY = obstacle.h + spacing + randomY;
-            ctx.drawImage(
-                sprites,
-                obstacle.low.sX, obstacle.low.sY,
-                obstacle.w, obstacle.h,
-                obsLowX, obsLowY,
-                obstacle.w, obstacle.h,
-            )
+            obstacle.pairsObs.forEach(function(pair){
+                const spacing = 90;
+                const randomY = pair.y;
+                // ~Obstáculo cima~
+                const obsUpX = pair.x;
+                const obsUpY = randomY;
+                ctx.drawImage(
+                    sprites,
+                    obstacle.up.sX, obstacle.up.sY,
+                    obstacle.w, obstacle.h,
+                    obsUpX, obsUpY,
+                    obstacle.w, obstacle.h,
+                )
+    
+                // ~Obstáculo baixo~
+                const obsLowX = pair.x;
+                const obsLowY = obstacle.h + spacing + randomY;
+                ctx.drawImage(
+                    sprites,
+                    obstacle.low.sX, obstacle.low.sY,
+                    obstacle.w, obstacle.h,
+                    obsLowX, obsLowY,
+                    obstacle.w, obstacle.h,
+                )
+            })
         },
+        att(){
+            const after100Frames = frames % 100 === 0;
+            if(after100Frames){
+                obstacle.pairsObs.push({
+                    x: canvas.width,
+                    y: -150 * (Math.random() + 1.15),
+                });
+            }
+            obstacle.pairsObs.forEach(function(pair){
+                pair.x = pair.x - 2;
+                if(pair.x + obstacle.w <= 0){
+                    obstacle.pairsObs.shift();
+                }
+            });
+        }
     }
     return obstacle;
 };
@@ -230,16 +248,17 @@ const screen = {
         },
         draw(){
             background.draw();
+            global.obstacle.draw();
             global.floor.draw();
             global.character.draw();
-            global.obstacle.draw();
-            //startGameMessage.draw();
+            startGameMessage.draw();
         },
         click(){
             changeToScreen(screen.GAME);
         },
         att(){
             global.floor.att();
+            global.obstacle.att();
         }
     },
     GAME: {
@@ -254,6 +273,7 @@ const screen = {
         att(){
             global.character.fall();
             global.floor.att();
+            global.obstacle.att();
         }
     },
 };
