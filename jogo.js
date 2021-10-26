@@ -33,6 +33,7 @@ function makeCharacter(){
             if(colision(character, global.floor)){
                 //hitSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
                 changeToScreen(screen.GAME_OVER);
+                frames = 0;
                 return;
             }
             character.speed += character.gravity;
@@ -41,7 +42,7 @@ function makeCharacter(){
         jump(){
             character.speed = - character.bounce;
         },
-        attActualFrame(){
+        charAnimation(){
             const frameInterval = 15;
             const afterInterval = frames % frameInterval === 0;
             if(afterInterval){
@@ -51,7 +52,7 @@ function makeCharacter(){
             }
         },
         draw(){
-            character.attActualFrame();
+            character.charAnimation();
             const { sX, sY } = character.moves[character.actualFrame];
             ctx.drawImage(
                 sprites,
@@ -166,6 +167,7 @@ function makeObstacle(){
             })
         },
         colision(pair){
+            let mid = 0;
             const charUp = global.character.y;
             const charLow = global.character.y + global.character.h;
             if(((global.character.x + global.character.w) - 3) >= pair.x){
@@ -176,11 +178,13 @@ function makeObstacle(){
                     return true;
                 }
             }
-            return false;
+            if((mid > 0) && mid % 47 === 0){
+                global.score.point ++;
+                return false;
+            }
         },
         att(){
-            const after100Frames = frames % 100 === 0;
-            if(after100Frames){
+            if(frames % 100 === 0){
                 obstacle.pairsObs.push({
                     x: canvas.width,
                     y: -150 * (Math.random() + 1.15),
@@ -191,6 +195,7 @@ function makeObstacle(){
                 if(obstacle.colision(pair)){
                     //hitSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
                     changeToScreen(screen.GAME_OVER);
+                    frames = 0;
                 }
                 if(pair.x + obstacle.w <= 0){
                     obstacle.pairsObs.shift();
@@ -272,6 +277,7 @@ const gameOverMessage = {
 function makeScore(){
     const score = {
         point: 0,
+        frameInterval: 135,
         draw(){
             ctx.font = '25px "Press Start 2P"';
             ctx.textAlign = 'right';
@@ -279,10 +285,10 @@ function makeScore(){
             ctx.fillText(`${score.point}`, canvas.width - 10, 35);
         },
         att(){
-            const frameInterval = 150;
-            const afterInterval = frames % frameInterval === 0;
-            if(afterInterval){
-                score.point += 1;
+            const afterInterval = frames % score.frameInterval === 0;
+            if(afterInterval && frames >= 100){
+                score.frameInterval = 105;
+                score.point ++;
             }
         }
     }
@@ -314,6 +320,7 @@ const screen = {
             startGameMessage.draw();
         },
         click(){
+            frames = 0;
             changeToScreen(screen.GAME);
         },
         att(){
@@ -358,7 +365,7 @@ function loop(){
     activeScreen.draw();
     activeScreen.att();
 
-    frames += 1;
+    frames ++;
     requestAnimationFrame(loop);
 }
 
