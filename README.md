@@ -12,6 +12,8 @@ Jogo sendo desenvolvido para aprender noções de JavaScript, a idéia é assist
 
 Modificações feitas além da playlist:
 
+• Melhoria pontos;
+
 • Desenhar medalha;
 
 ## 🔧 Stack
