@@ -188,10 +188,10 @@ function makeObstacle(){
                     return true;
                 }
             }
-            if((mid > 0) && mid % 47 === 0){
+            /*if((mid > 0) && mid % 47 === 0){
                 global.score.point ++;
                 return false;
-            }
+            }*/
         },
         att(){
             if(frames % 100 === 0){
@@ -313,14 +313,34 @@ function makeMedals(){
         h: 44,
         x: 73,
         y: 136,
+        i: 0,
         class: [
+            { sX: 48, sY: 32 }, //Sem Medalha
             { sX: 48, sY: 124 }, //Medalha de Bronze
             { sX: 48, sY: 78 }, //Medalha de Prata
             { sX: 0, sY: 124 }, //Medalha de Ouro
             { sX: 0, sY: 78 }, //Medalha de Platina
         ],
+        choose(){
+            if(global.score.point <= 5){
+                medals.i = 0;
+            }
+            if(global.score.point > 5 && global.score.point <= 10){
+                medals.i = 1;
+            }
+            if(global.score.point > 10 && global.score.point <= 25){
+                medals.i = 2;
+            }
+            if(global.score.point > 25 && global.score.point <= 50){
+                medals.i = 3;
+            }
+            if(global.score.point > 50){
+                medals.i = 4;
+            }
+        },
         draw(){
-            const { sX, sY } = medals.class[1];
+            medals.choose();
+            const { sX, sY} = medals.class[medals.i];
             ctx.drawImage(
                 sprites,
                 sX, sY,
@@ -393,7 +413,7 @@ const screen = {
             global.medals.draw();
         },
         click(){
-            changeToScreen(screen.START)
+            changeToScreen(screen.START);
         },
         att(){
 
