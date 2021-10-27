@@ -14,7 +14,7 @@ Modificações feitas além da playlist:
 
 • Melhoria pontos;
 
-• Desenhar medalha;
+• Desenhar medalha por pontuação;
 
 • Adição de efeitos sonoros;
 
