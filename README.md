@@ -18,6 +18,8 @@ Modificações feitas além da playlist:
 
 • Adição de efeitos sonoros;
 
+• Mostrar Score atual e Best Score na tela de Game Over;
+
 ## 🔧 Stack
 Tecnologias utilizadas:
 
