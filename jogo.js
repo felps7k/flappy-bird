@@ -2,19 +2,30 @@ console.log('~Felps7k~');
 
 let frames = 0;
 
+const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+
+// ~Sounds~
 const hitSound = new Audio();
 hitSound.src = './sounds/hit.wav';
 
+const jumpSound = new Audio();
+jumpSound.src = './sounds/jump.wav';
+
+const pointSound = new Audio();
+pointSound.src = './sounds/point.wav';
+
+const fallSound = new Audio();
+fallSound.src = './sounds/fall.wav';
+
+// ~Images~
 const sprites = new Image();
 sprites.src = './sprites.png';
-
-const canvas = document.querySelector('canvas');
-const ctx = canvas.getContext('2d');
 
 // ~Character~
 function makeCharacter(){
     const character = { 
-        w: 33,
+        w: 34,
         h: 24,
         x: 10,
         y: 180,
@@ -29,7 +40,7 @@ function makeCharacter(){
         ],
         fall(){
             if(colision(character, global.floor)){
-                //hitSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
+                //fallSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
                 changeToScreen(screen.GAME_OVER);
                 frames = 0;
                 return;
@@ -38,6 +49,7 @@ function makeCharacter(){
             character.y = character.y + character.speed;
         },
         jump(){
+            //jumpSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
             character.speed = - character.bounce;
         },
         charAnimation(){
@@ -287,6 +299,7 @@ function makeScore(){
             if(afterInterval && frames >= 100){
                 score.frameInterval = 105;
                 score.point ++;
+                //pointSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
             }
         }
     }
