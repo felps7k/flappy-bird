@@ -16,6 +16,8 @@ Modificações feitas além da playlist:
 
 • Desenhar medalha;
 
+• Adição de efeitos sonoros;
+
 ## 🔧 Stack
 Tecnologias utilizadas:
 
