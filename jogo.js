@@ -3,6 +3,8 @@ console.log('~Felps7k~');
 let frames = 0;
 let bestScore = 0;
 
+
+
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -285,7 +287,7 @@ const gameOverMessage = {
         ctx.textAlign = 'right';
         ctx.fillStyle = 'white';
         ctx.fillText(`${global.score.point}`, canvas.width - 70, 150);
-        ctx.fillText(`${bestScore}`, canvas.width - 70, 192);
+        ctx.fillText(`${JSON.parse(localStorage.bestScore)}`, canvas.width - 70, 192);
     },
 }
 
@@ -305,10 +307,10 @@ function makeScore(){
             if(afterInterval && frames >= 100){
                 score.frameInterval = 105;
                 score.point ++;
-                if(score.point > bestScore){
+                if(score.point > JSON.parse(localStorage.bestScore)){
                     bestScore = score.point;
+                    localStorage.bestScore = JSON.stringify(bestScore);
                 }
-                console.log(bestScore);
                 //pointSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
             }
         }
