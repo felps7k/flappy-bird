@@ -20,6 +20,8 @@ Modificações feitas além da playlist:
 
 • Mostrar Score atual e Best Score na tela de Game Over;
 
+• Best Score salvando em localStorage;
+
 ## 🔧 Stack
 Tecnologias utilizadas:
 
