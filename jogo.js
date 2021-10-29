@@ -3,7 +3,8 @@ console.log('~Felps7k~');
 let frames = 0;
 let bestScore = 0;
 
-
+const getBS = () => JSON.parse(localStorage.getItem('bestScore'));
+const  setBS = (bestScore) => localStorage.setItem("bestScore", JSON.stringify(bestScore));
 
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
@@ -287,7 +288,7 @@ const gameOverMessage = {
         ctx.textAlign = 'right';
         ctx.fillStyle = 'white';
         ctx.fillText(`${global.score.point}`, canvas.width - 70, 150);
-        ctx.fillText(`${JSON.parse(localStorage.bestScore)}`, canvas.width - 70, 192);
+        ctx.fillText(`${getBS()}`, canvas.width - 70, 192);
     },
 }
 
@@ -307,9 +308,9 @@ function makeScore(){
             if(afterInterval && frames >= 100){
                 score.frameInterval = 105;
                 score.point ++;
-                if(score.point > JSON.parse(localStorage.bestScore)){
+                if(score.point > getBS()){
                     bestScore = score.point;
-                    localStorage.bestScore = JSON.stringify(bestScore);
+                    setBS(bestScore);
                 }
                 //pointSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
             }
@@ -436,7 +437,6 @@ const screen = {
 function loop(){
     activeScreen.draw();
     activeScreen.att();
-
     frames ++;
     requestAnimationFrame(loop);
 }
