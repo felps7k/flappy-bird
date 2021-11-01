@@ -314,6 +314,11 @@ function makeScore(){
                 }
                 //pointSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
             }
+        },
+        testBS(){
+            if(!isNaN(getBS())){
+                setBS(bestScore);
+            }
         }
     }
     return score;
@@ -426,10 +431,12 @@ const screen = {
             global.medals.draw();
         },
         click(){
-            changeToScreen(screen.START);
+            setTimeout(() =>{
+                changeToScreen(screen.START);
+            }, 1500)
         },
         att(){
-
+            global.score.testBS();
         },
     }
 };
