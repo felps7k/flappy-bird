@@ -315,11 +315,6 @@ function makeScore(){
                 //pointSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
             }
         },
-        testBS(){
-            if(!isNaN(getBS()) && getBS() < 1){
-                setBS(bestScore);
-            }
-        }
     }
     return score;
 }
@@ -434,7 +429,7 @@ const screen = {
             changeToScreen(screen.START);
         },
         att(){
-            global.score.testBS();
+            
         },
     }
 };
