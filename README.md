@@ -22,6 +22,14 @@ Modificações feitas além da playlist:
 
 • Best Score salvando em localStorage;
 
+## 🔜 Tasks
+
+Melhorias a serem feitas/correções
+
+• Best Score retornando null se morrer com 0 pontos na primeira vez que jogar;
+
+• Entender um toque na tela de SmartPhone para ser jogável mobile;
+
 ## 🔧 Stack
 Tecnologias utilizadas:
 
