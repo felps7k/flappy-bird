@@ -316,7 +316,7 @@ function makeScore(){
             }
         },
         testBS(){
-            if(!isNaN(getBS())){
+            if(!isNaN(getBS()) && getBS() < 1){
                 setBS(bestScore);
             }
         }
@@ -431,9 +431,7 @@ const screen = {
             global.medals.draw();
         },
         click(){
-            setTimeout(() =>{
-                changeToScreen(screen.START);
-            }, 1500)
+            changeToScreen(screen.START);
         },
         att(){
             global.score.testBS();
