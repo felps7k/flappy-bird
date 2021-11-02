@@ -6,6 +6,10 @@ let bestScore = 0;
 const getBS = () => JSON.parse(localStorage.getItem('bestScore'));
 const  setBS = (bestScore) => localStorage.setItem("bestScore", JSON.stringify(bestScore));
 
+if((getBS() != 0) && (getBS() < 1)){
+    setBS(bestScore);
+}
+
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -429,7 +433,7 @@ const screen = {
             changeToScreen(screen.START);
         },
         att(){
-            
+
         },
     }
 };
