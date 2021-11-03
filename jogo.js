@@ -30,6 +30,22 @@ fallSound.src = './sounds/fall.wav';
 const sprites = new Image();
 sprites.src = './sprites.png';
 
+// ~~Start Game~
+function startGame() {
+    window.addEventListener('click', function () {
+        if (activeScreen.click) {
+            activeScreen.click();
+        }
+    });
+
+    window.addEventListener('touchstart', function () {
+        if (activeScreen.touchstart) {
+            activeScreen.touchstart();
+        }
+    });
+    changeToScreen(screen.START);
+}
+
 // ~Character~
 function makeCharacter() {
     const character = {
@@ -448,6 +464,7 @@ const screen = {
     }
 };
 
+// ~Loop a Game~
 function loop() {
     activeScreen.draw();
     activeScreen.att();
@@ -455,17 +472,5 @@ function loop() {
     requestAnimationFrame(loop);
 }
 
-window.addEventListener('click', function () {
-    if (activeScreen.click) {
-        activeScreen.click();
-    }
-});
-
-window.addEventListener('touchstart', function () {
-    if (activeScreen.touchstart) {
-        activeScreen.touchstart();
-    }
-});
-
-changeToScreen(screen.START);
+startGame();
 loop();
