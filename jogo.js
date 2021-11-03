@@ -4,9 +4,9 @@ let frames = 0;
 let bestScore = 0;
 
 const getBS = () => JSON.parse(localStorage.getItem('bestScore'));
-const  setBS = (bestScore) => localStorage.setItem("bestScore", JSON.stringify(bestScore));
+const setBS = (bestScore) => localStorage.setItem("bestScore", JSON.stringify(bestScore));
 
-if((getBS() != 0) && (getBS() < 1)){
+if ((getBS() != 0) && (getBS() < 1)) {
     setBS(bestScore);
 }
 
@@ -31,14 +31,14 @@ const sprites = new Image();
 sprites.src = './sprites.png';
 
 // ~Character~
-function makeCharacter(){
-    const character = { 
+function makeCharacter() {
+    const character = {
         w: 34,
         h: 24,
         x: 10,
         y: 180,
         speed: 0,
-        gravity:0.25,
+        gravity: 0.25,
         bounce: 4.6,
         actualFrame: 0,
         moves: [
@@ -46,8 +46,8 @@ function makeCharacter(){
             { sX: 0, sY: 26 }, //Asa no meio
             { sX: 0, sY: 52 }, //Asa para baixo
         ],
-        fall(){
-            if(colision(character, global.floor)){
+        fall() {
+            if (colision(character, global.floor)) {
                 //fallSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
                 changeToScreen(screen.GAME_OVER);
                 frames = 0;
@@ -56,20 +56,20 @@ function makeCharacter(){
             character.speed += character.gravity;
             character.y = character.y + character.speed;
         },
-        jump(){
+        jump() {
             //jumpSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
             character.speed = - character.bounce;
         },
-        charAnimation(){
+        charAnimation() {
             const frameInterval = 15;
             const afterInterval = frames % frameInterval === 0;
-            if(afterInterval){
+            if (afterInterval) {
                 const i = character.actualFrame + 1;
                 const baseRepeat = character.moves.length;
                 character.actualFrame = i % baseRepeat;
             }
         },
-        draw(){
+        draw() {
             character.charAnimation();
             const { sX, sY } = character.moves[character.actualFrame];
             ctx.drawImage(
@@ -85,37 +85,37 @@ function makeCharacter(){
 }
 
 // ~Colision~
-function colision(character, floor){
+function colision(character, floor) {
     const characterY = character.y + character.h;
     const floorY = floor.y;
 
-    if(characterY >= floorY){
+    if (characterY >= floorY) {
         return true;
     }
     return false;
 }
 
 // ~Floor~
-function makeFloor(){
+function makeFloor() {
     const floor = {
         sX: 0,
         sY: 610,
         w: 224,
         h: 112,
         x: 0,
-        y: canvas.height - 112, 
-        att(){
+        y: canvas.height - 112,
+        att() {
             const moveFloor = 2;
             const repeatFloor = floor.w / 2;
             const move = floor.x - moveFloor;
-            
-            if(!colision(global.character, floor)){
+
+            if (!colision(global.character, floor)) {
                 floor.x = move % repeatFloor;
-            }else {
+            } else {
                 return;
             }
         },
-        draw(){
+        draw() {
             ctx.drawImage(
                 sprites,
                 floor.sX, floor.sY,
@@ -136,7 +136,7 @@ function makeFloor(){
 };
 
 // ~~Obstacles~
-function makeObstacle(){
+function makeObstacle() {
     const obstacle = {
         w: 52,
         h: 400,
@@ -149,8 +149,8 @@ function makeObstacle(){
             sY: 169
         },
         pairsObs: [],
-        draw(){
-            obstacle.pairsObs.forEach(function(pair){
+        draw() {
+            obstacle.pairsObs.forEach(function (pair) {
                 const spacing = 90;
                 const randomY = pair.y;
                 // ~Obstáculo cima~
@@ -163,7 +163,7 @@ function makeObstacle(){
                     obsUpX, obsUpY,
                     obstacle.w, obstacle.h,
                 )
-    
+
                 // ~Obstáculo baixo~
                 const obsLowX = pair.x;
                 const obsLowY = obstacle.h + spacing + randomY;
@@ -184,15 +184,15 @@ function makeObstacle(){
                 }
             })
         },
-        colision(pair){
+        colision(pair) {
             let mid = 0;
             const charUp = global.character.y;
             const charLow = global.character.y + global.character.h;
-            if(((global.character.x + global.character.w) - 3) >= pair.x){
-                if(charUp <= (pair.obsUp.y - 3)){
+            if (((global.character.x + global.character.w) - 3) >= pair.x) {
+                if (charUp <= (pair.obsUp.y - 3)) {
                     return true;
                 }
-                if((charLow - 3) >= pair.obsLow.y){
+                if ((charLow - 3) >= pair.obsLow.y) {
                     return true;
                 }
             }
@@ -201,21 +201,21 @@ function makeObstacle(){
                 return false;
             }*/
         },
-        att(){
-            if(frames % 100 === 0){
+        att() {
+            if (frames % 100 === 0) {
                 obstacle.pairsObs.push({
                     x: canvas.width,
                     y: -150 * (Math.random() + 1.15),
                 });
             }
-            obstacle.pairsObs.forEach(function(pair){
+            obstacle.pairsObs.forEach(function (pair) {
                 pair.x = pair.x - 2;
-                if(obstacle.colision(pair)){
+                if (obstacle.colision(pair)) {
                     //hitSound.play(); //DESCOMENTAR PARA ATIVAR AUDIO
                     changeToScreen(screen.GAME_OVER);
                     frames = 0;
                 }
-                if(pair.x + obstacle.w <= 0){
+                if (pair.x + obstacle.w <= 0) {
                     obstacle.pairsObs.shift();
                 }
             });
@@ -231,8 +231,8 @@ const background = {
     w: 275,
     h: 204,
     x: 0,
-    y: canvas.height - 204, 
-    draw(){
+    y: canvas.height - 204,
+    draw() {
         ctx.fillStyle = '#70c5ce';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -260,8 +260,8 @@ const startGameMessage = {
     w: 174,
     h: 152,
     x: (canvas.width / 2) - 174 / 2,
-    y: 50, 
-    draw(){
+    y: 50,
+    draw() {
         ctx.drawImage(
             sprites,
             startGameMessage.sX, startGameMessage.sY,
@@ -279,8 +279,8 @@ const gameOverMessage = {
     w: 226,
     h: 200,
     x: (canvas.width / 2) - 226 / 2,
-    y: 50, 
-    draw(){
+    y: 50,
+    draw() {
         ctx.drawImage(
             sprites,
             gameOverMessage.sX, gameOverMessage.sY,
@@ -297,22 +297,22 @@ const gameOverMessage = {
 }
 
 // ~Score~
-function makeScore(){
+function makeScore() {
     const score = {
         point: 0,
         frameInterval: 135,
-        draw(){
+        draw() {
             ctx.font = '25px "Press Start 2P"';
             ctx.textAlign = 'right';
             ctx.fillStyle = 'white';
             ctx.fillText(`${score.point}`, canvas.width - 10, 35);
         },
-        att(){
+        att() {
             const afterInterval = frames % score.frameInterval === 0;
-            if(afterInterval && frames >= 100){
+            if (afterInterval && frames >= 100) {
                 score.frameInterval = 105;
-                score.point ++;
-                if(score.point > getBS()){
+                score.point++;
+                if (score.point > getBS()) {
                     bestScore = score.point;
                     setBS(bestScore);
                 }
@@ -324,7 +324,7 @@ function makeScore(){
 }
 
 // ~Medals~
-function makeMedals(){
+function makeMedals() {
     const medals = {
         w: 44,
         h: 44,
@@ -338,26 +338,26 @@ function makeMedals(){
             { sX: 0, sY: 124 }, //Medalha de Ouro
             { sX: 0, sY: 78 }, //Medalha de Platina
         ],
-        choose(){
-            if(global.score.point <= 5){
+        choose() {
+            if (global.score.point <= 5) {
                 medals.i = 0;
             }
-            if(global.score.point > 5 && global.score.point <= 10){
+            if (global.score.point > 5 && global.score.point <= 10) {
                 medals.i = 1;
             }
-            if(global.score.point > 10 && global.score.point <= 25){
+            if (global.score.point > 10 && global.score.point <= 25) {
                 medals.i = 2;
             }
-            if(global.score.point > 25 && global.score.point <= 50){
+            if (global.score.point > 25 && global.score.point <= 50) {
                 medals.i = 3;
             }
-            if(global.score.point > 50){
+            if (global.score.point > 50) {
                 medals.i = 4;
             }
         },
-        draw(){
+        draw() {
             medals.choose();
-            const { sX, sY} = medals.class[medals.i];
+            const { sX, sY } = medals.class[medals.i];
             ctx.drawImage(
                 sprites,
                 sX, sY,
@@ -373,51 +373,58 @@ function makeMedals(){
 // ~Screens~
 const global = {};
 let activeScreen = {};
-function changeToScreen(newScreen){
+function changeToScreen(newScreen) {
     activeScreen = newScreen;
-    if(activeScreen.make){
+    if (activeScreen.make) {
         activeScreen.make();
     }
 }
 
 const screen = {
     START: {
-        make(){
+        make() {
             global.character = makeCharacter();
             global.floor = makeFloor();
             global.obstacle = makeObstacle();
             global.medals = makeMedals();
         },
-        draw(){
+        draw() {
             background.draw();
             global.obstacle.draw();
             global.floor.draw();
             global.character.draw();
             startGameMessage.draw();
         },
-        click(){
+        click() {
             frames = 0;
             changeToScreen(screen.GAME);
         },
-        att(){
+        touchstart() {
+            frames = 0;
+            changeToScreen(screen.GAME);
+        },
+        att() {
             global.floor.att();
         }
     },
     GAME: {
-        make(){
+        make() {
             global.score = makeScore();
         },
-        draw(){
+        draw() {
             background.draw();
             global.obstacle.draw();
             global.floor.draw();
             global.character.draw();
             global.score.draw();
         },
-        click(){
+        click() {
             global.character.jump();
         },
-        att(){
+        touchstart() {
+            global.character.jump();
+        },
+        att() {
             global.character.fall();
             global.floor.att();
             global.obstacle.att();
@@ -425,29 +432,38 @@ const screen = {
         }
     },
     GAME_OVER: {
-        draw(){
+        draw() {
             gameOverMessage.draw();
             global.medals.draw();
         },
-        click(){
+        click() {
             changeToScreen(screen.START);
         },
-        att(){
+        touchstart() {
+            changeToScreen(screen.START);
+        },
+        att() {
 
         },
     }
 };
 
-function loop(){
+function loop() {
     activeScreen.draw();
     activeScreen.att();
-    frames ++;
+    frames++;
     requestAnimationFrame(loop);
 }
 
-window.addEventListener('click', function(){
-    if(activeScreen.click){
+window.addEventListener('click', function () {
+    if (activeScreen.click) {
         activeScreen.click();
+    }
+});
+
+window.addEventListener('touchstart', function () {
+    if (activeScreen.touchstart) {
+        activeScreen.touchstart();
     }
 });
 
