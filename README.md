@@ -1,4 +1,6 @@
-# Flappy-Bird
+<h1 align="center">
+🐦<br>Flappy-Bird
+</h1>
 
 ## 📖 About
 
@@ -6,45 +8,49 @@ Jogo sendo desenvolvido para aprender noções de JavaScript, a idéia é assist
 
 ## ▶️ Playlist
 
-• https://www.youtube.com/watch?v=jOAU81jdi-c&list=PLTcmLKdIkOWmeNferJ292VYKBXydGeDej&index=2&ab_channel=DevSoutinho
+- https://www.youtube.com/watch?v=jOAU81jdi-c&list=PLTcmLKdIkOWmeNferJ292VYKBXydGeDej&index=2&ab_channel=DevSoutinho
 
 ## 👨‍🔧 Modifications
 
 Modificações feitas além da playlist:
 
-• Melhoria pontos;
-
-• Desenhar medalha por pontuação;
-
-• Adição de efeitos sonoros;
-
-• Mostrar Score atual e Best Score na tela de Game Over;
-
-• Best Score salvando em localStorage;
-
-• Jogável em SmartPhone entendendo o toque na tela;
+- Melhoria pontos;
+- Desenhar medalha por pontuação;
+- Adição de efeitos sonoros;
+- Mostrar Score atual e Best Score na tela de Game Over;
+- Best Score salvando em localStorage;
+- Jogável em SmartPhone entendendo o toque na tela;
 
 ## 🔜 Tasks
 
 Melhorias a serem feitas/correções
 
-• Best Score retornando null se morrer com 0 pontos na primeira vez que jogar;
-
-• Melhorar responsividade no SmartPhone;
+- Best Score retornando null se morrer com 0 pontos na primeira vez que jogar;
+- Melhorar responsividade no SmartPhone;
 
 ## 🔧 Stack
 Tecnologias utilizadas:
 
-• JavaScript
+- JavaScript
+- HTML
+- CSS
 
-• HTML
+## 🕹 How to play
 
-• CSS
+- Baixe e descompacte os arquivos;
+- Abra o arquivo index.html;
+- Se divirta! 🤓
 
-### ✒️ Author
+## 💻 Open on browser
 
-• Felipe Farias (@felps7k)
+- https://flappy.felipefarias.com.br
+
+## ✏️ Author
+
+- Felipe Farias (@felps7k)
 
 ## 🖼 Work Preview
 
 ![Final Preview](https://github.com/felps7k/flappy-bird/blob/main/preview.png)
+
+<br>[⬆ Voltar ao top](#flappy-bird) <br>
